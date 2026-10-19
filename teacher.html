@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Wejściówka — JIMP</title><link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="teacher-body">
+<header class="topbar"><div class="shell"><span class="brand">JIMP <span>· wejściówka</span></span></div></header>
+<main class="shell teacher-shell">
+  <section id="login" class="login-card">
+    <h1>Wybierz laboratorium i grupę</h1>
+    <div class="form-grid">
+      <label>Laboratorium<select id="lab" autocomplete="off"></select></label>
+      <label>Grupa<select id="group" autocomplete="off"><option value="08">08:00</option><option value="10">10:00</option><option value="12">12:00</option></select></label>
+    </div>
+    <label>Hasło<input id="password" type="password" autocomplete="off"></label>
+    <button id="unlock" class="button" type="button">Otwórz zadanie</button>
+    <p id="error" class="error" role="alert" aria-live="polite"></p>
+  </section>
+  <div id="presentation" hidden>
+    <div class="presentation-toolbar"><span id="group-label" aria-live="polite"></span><div class="action-row"><button id="fullscreen" class="button secondary" type="button">Pełny ekran</button><button id="lock" class="button secondary" type="button">Zablokuj</button></div></div>
+    <article id="slide" class="question-sheet"></article>
+  </div>
+</main>
+<script src="assets/teacher.js" defer></script>
+</body>
+</html>
