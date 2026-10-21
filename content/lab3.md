@@ -73,7 +73,7 @@ W tej konstrukcji **pozycje nazw i wskaźników muszą do siebie pasować**. Tab
 Argumenty wiersza poleceń (`argc`, `argv`) pozwalają wybrać nazwę funkcji, zakres oraz liczbę punktów. W oryginalnym `p3.c` do odczytu liczb wykorzystano `atof` i `atoi`; biblioteka `math.h` dostarcza m.in. `sin` i `cos`.
 
 ```bash Terminal
-gcc -Wall -Wextra -pedantic -ansi p3.c -lm -o p3
+gcc -Wall p3.c -lm -o p3
 ./p3 sin 0 3.14159 5
 ```
 
