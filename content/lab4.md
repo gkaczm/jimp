@@ -290,11 +290,7 @@ Dla wektora `[1.5, 2.0, 2.0]` wynik wynosi `5.5`. Dla `[2.0, -1.0, 0.5]` wynik w
 
 > **Dlaczego zmieniamy trzy pliki?** W `bibl.h` ogłaszamy, że funkcja istnieje; w `bibl.c` opisujemy, co robi; w `main.c` z niej korzystamy. To najważniejsza umiejętność z tego ćwiczenia.
 
-## 8. Jeśli skończysz wcześniej
-
-Dodaj funkcję `skaluj`, która mnoży wszystkie elementy wektora przez liczbę `k` **w miejscu**, nie tworząc drugiej tablicy. Zadeklaruj ją w `bibl.h`, zdefiniuj w `bibl.c` i wywołaj w `main.c`. Zastanów się, czy taka funkcja powinna coś zwracać.
-
-## 9. Co warto zapamiętać?
+## Co warto zapamiętać?
 
 - **Deklaracja** mówi kompilatorowi, jak wywołać funkcję; **definicja** zawiera jej kod.
 - `#include "bibl.h"` pozwala korzystać ze wspólnego interfejsu biblioteki, ale **nie zastępuje** dołączenia pliku `bibl.o` na etapie linkowania.
