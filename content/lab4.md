@@ -1,3 +1,4 @@
+
 # Laboratorium 4 — Programy wieloplikowe i operacje na wektorach
 
 ## 1. Co będziemy robić?
@@ -39,11 +40,24 @@ double dot_product(double v[], double u[], int n);
 #endif
 ```
 
-Zwróć uwagę na trzy rzeczy:
+Zwróć uwagę na dwie rzeczy:
 
 - `double L2(double v[], int n);` to **deklaracja**: na końcu jest średnik, nie ma ciała funkcji.
 - `#include <stdio.h>` jest potrzebne, ponieważ deklaracja `read()` używa typu `FILE *`.
-- `#ifndef BIBL_H` / `#define BIBL_H` / `#endif` to **zabezpieczenie nagłówka przed wielokrotnym włączeniem** (*include guard*). Nie jest to instrukcja `if` wykonywana przez program, tylko dyrektywa preprocesora.
+
+### Po co są `#ifndef BIBL_H`, `#define BIBL_H` i `#endif`?
+
+Przed kompilacją działa **preprocesor**, który m.in. zastępuje dyrektywy `#include` zawartością wskazanych plików. Ten sam nagłówek może zostać dołączony kilkakrotnie, np. bezpośrednio i dodatkowo przez inny nagłówek.
+
+Powyższe trzy dyrektywy tworzą *include guard*, czyli zabezpieczenie przed powtórnym przetworzeniem zawartości `bibl.h`:
+
+1. `#ifndef BIBL_H` — sprawdza, czy nazwa `BIBL_H` **nie została jeszcze zdefiniowana**. Jeśli nie, preprocesor przetwarza kolejne linie.
+2. `#define BIBL_H` — definiuje tę nazwę, aby kolejne dołączenie nagłówka można było rozpoznać.
+3. `#endif` — zamyka obszar objęty sprawdzeniem. Przy ponownym dołączeniu preprocesor pomija kod znajdujący się między `#ifndef` i `#endif`.
+
+**Co by się stało bez tego zabezpieczenia?** W naszej obecnej wersji `bibl.h`, zawierającej głównie prototypy funkcji, program nadal mógłby działać: zgodne deklaracje funkcji można powtarzać. Jednak w bardziej rozbudowanych nagłówkach wielokrotne deklarowanie np. definicji struktur mogłoby powodować błędy kompilacji. Dlatego taki zapis stosujemy od początku.
+
+Zabezpieczenie działa osobno przy przetwarzaniu każdego pliku `.c`, więc zarówno `main.c`, jak i `bibl.c` mogą dołączyć `bibl.h`.
 
 ## 3. Plik `bibl.c` — gdzie znajdują się obliczenia?
 
@@ -111,11 +125,34 @@ double dot_product(double v[], double u[], int n)
 - Norma L2: `sqrt(sum(v[i] * v[i]))` — pierwiastek z sumy kwadratów.
 - Iloczyn skalarny: `sum(v[i] * u[i])` — suma iloczynów elementów o tych samych indeksach.
 
-> **Uwaga:** Przy `fscanf()` specyfikator dla `double *` to `%lf`, natomiast przy `printf()` wypisywanie wartości `double` odbywa się z użyciem `%f` (np. `%.3f`). To nie jest literówka w tej instrukcji — typy argumentów są interpretowane inaczej przez obie funkcje.
+### Dlaczego `fscanf()` używa `%lf`, a `printf()` — `%f`?
+
+`fscanf()` **wczytuje dane do zmiennej**: otrzymuje jej adres i na podstawie specyfikatora ustala, jakiego typu wartość ma zapisać w pamięci.
+
+W tej funkcji:
+
+- `%f` oznacza adres zmiennej typu `float` (`float *`).
+- `%lf` oznacza adres zmiennej typu `double` (`double *`).
+
+Dlatego w naszej funkcji `read()` poprawny zapis to `fscanf(p, "%lf", &v[i])`.
+
+`printf()` **wypisuje wartość** przekazaną jako argument, np. `printf("%.3f", v[i])`. Specyfikator `%f` służy tutaj do wyświetlania liczby typu `double`, a `.3` określa liczbę cyfr po przecinku.
+
+Wynika to również z zasad przekazywania argumentów do `printf()`: wartości typu `float` są automatycznie przekształcane w `double`.
+
+```c
+double x;
+fscanf(p, "%lf", &x);  /* odczyt: przekazujemy adres zmiennej double */
+printf("%.3f\n", x);  /* wypisanie: przekazujemy wartosc double */
+```
+
+**Ważne:** użycie `%f` z adresem `double` w `fscanf()` oznacza niezgodność typów i może uszkodzić dane w pamięci. Warto więc odczytywać ostrzeżenia kompilatora.
 
 ## 4. Plik `main.c` — jak korzystamy z biblioteki?
 
-Program główny nie musi wiedzieć, **jak** obliczana jest norma ani iloczyn skalarny. Musi wiedzieć tylko, **jak wywołać funkcje**, których deklaracje znajdują się w `bibl.h`. Wczyta więc dwa wektory, wypisze je, a następnie wyświetli wyniki obliczeń.
+Program główny nie musi wiedzieć, **jak** obliczana jest norma ani iloczyn skalarny. Musi wiedzieć tylko, **jak wywołać funkcje**, których deklaracje znajdują się w `bibl.h`.
+
+Wczyta więc dwa wektory, wypisze je, a następnie wyświetli wyniki obliczeń.
 
 ```c
 #include <stdio.h>
@@ -183,18 +220,22 @@ Trzy pliki źródłowe **nie oznaczają trzech osobnych programów**. Kompilujem
 W katalogu z projektem wykonaj:
 
 ```bash
-# Osobna kompilacja i linkowanie
 gcc -Wall -c bibl.c
 gcc -Wall -c main.c
 gcc main.o bibl.o -o lmp4 -lm
-
-# Wszystko jedną komendą
-gcc -Wall main.c bibl.c -o lmp4 -lm
 ```
 
 - `-c` — skompiluj plik, ale **jeszcze nie twórz programu wykonywalnego**.
 - `bibl.o`, `main.o` — pliki obiektowe utworzone przez kompilator.
 - `gcc main.o bibl.o -o lmp4 -lm` — połącz części w program `lmp4`. Flaga `-lm` dołącza bibliotekę matematyczną, potrzebną do `sqrt()`.
+
+**Możemy też skompilować cały program jednym poleceniem:**
+
+```bash
+gcc -Wall main.c bibl.c -o lmp4 -lm
+```
+
+Efekt jest taki sam: powstaje program `lmp4`. W tym przypadku GCC sam kompiluje i łączy oba pliki. Osobna kompilacja przydaje się w większych projektach, bo po zmianie tylko `bibl.c` nie trzeba kompilować `main.c` od nowa.
 
 **Zadanie 1.** Przeczytaj komunikaty kompilatora. W kodzie `bibl.c` jest niezgodność między formatem `fscanf()` a typem przekazywanego argumentu. Znajdź ją i popraw **przed uruchomieniem programu**. Następnie skompiluj ponownie tylko `bibl.c` i jeszcze raz połącz pliki `.o`.
 
@@ -249,7 +290,11 @@ Dla wektora `[1.5, 2.0, 2.0]` wynik wynosi `5.5`. Dla `[2.0, -1.0, 0.5]` wynik w
 
 > **Dlaczego zmieniamy trzy pliki?** W `bibl.h` ogłaszamy, że funkcja istnieje; w `bibl.c` opisujemy, co robi; w `main.c` z niej korzystamy. To najważniejsza umiejętność z tego ćwiczenia.
 
-## Co warto zapamiętać?
+## 8. Jeśli skończysz wcześniej
+
+Dodaj funkcję `skaluj`, która mnoży wszystkie elementy wektora przez liczbę `k` **w miejscu**, nie tworząc drugiej tablicy. Zadeklaruj ją w `bibl.h`, zdefiniuj w `bibl.c` i wywołaj w `main.c`. Zastanów się, czy taka funkcja powinna coś zwracać.
+
+## 9. Co warto zapamiętać?
 
 - **Deklaracja** mówi kompilatorowi, jak wywołać funkcję; **definicja** zawiera jej kod.
 - `#include "bibl.h"` pozwala korzystać ze wspólnego interfejsu biblioteki, ale **nie zastępuje** dołączenia pliku `bibl.o` na etapie linkowania.
