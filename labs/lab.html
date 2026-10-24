@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Laboratorium — JIMP</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <!-- Ciemny motyw kolorowania kodu (C, Bash, JSON itd.) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+  <style>
+    /* Ciemne bloki kodu niezależnie od stylów ogólnych strony. */
+    .lesson-main pre {
+      background: #282c34;
+      border: 1px solid #3e4451;
+      border-radius: 8px;
+    }
+    .lesson-main pre code.hljs {
+      display: block;
+      background: transparent;
+      color: #abb2bf;
+    }
+  </style>
   <link rel="icon" type="image/png" href="../assets/favicon.png">
 </head>
 <body>
@@ -18,6 +33,28 @@
       <aside id="lab-toc" class="lesson-toc" aria-label="Spis treści"></aside>
     </div>
   </main>
+  <!-- Highlight.js jest ladowany przed skryptem generujacym tresc lekcji. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script>
   <script src="../assets/lab-markdown.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var content = document.getElementById('lab-content');
+      if (!content) return;
+
+      function highlightCode() {
+        if (!window.hljs) return;
+        var blocks = content.querySelectorAll('pre code:not(.hljs)');
+        blocks.forEach(function (block) {
+          hljs.highlightElement(block);
+        });
+      }
+
+      // Instrukcja Markdown jest wczytywana dynamicznie, wiec samo
+      // hljs.highlightAll() przy starcie strony moze wykonac sie za wczesnie.
+      var observer = new MutationObserver(highlightCode);
+      observer.observe(content, { childList: true, subtree: true });
+      highlightCode();
+    });
+  </script>
 </body>
 </html>
