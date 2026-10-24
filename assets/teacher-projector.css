@@ -1,0 +1,125 @@
+/* JIMP Wejściówka — wide, compact, projector-oriented layout.
+   Only applies to the teacher page; does not affect student labs. */
+.teacher-body .teacher-shell {
+  width: min(1560px, calc(100% - 70px));
+  padding-top: 24px;
+  padding-bottom: 36px;
+}
+
+.teacher-body .presentation-toolbar { margin-bottom: 12px; }
+
+.teacher-body .question-sheet {
+  display: grid;
+  gap: clamp(12px, 1.15vw, 19px);
+  padding: clamp(18px, 2vw, 32px);
+  font-size: clamp(1.03rem, 1.35vw, 1.4rem);
+  line-height: 1.4;
+}
+.teacher-body .question-sheet h1 {
+  font-size: clamp(1.75rem, 2.65vw, 2.75rem);
+  line-height: 1.13;
+  margin: 0;
+}
+.teacher-body .question-sheet .task-text {
+  margin: 0;
+  line-height: 1.4;
+}
+.teacher-body .question-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.07fr) minmax(0, 1fr);
+  gap: clamp(12px, 1.2vw, 19px);
+  align-items: stretch;
+  min-width: 0;
+}
+.teacher-body .question-layout.one-panel { grid-template-columns: 1fr; }
+.teacher-body .question-panel {
+  border: 1px solid var(--border, #dce3ea);
+  border-radius: 11px;
+  background: #f7f9fc;
+  padding: clamp(13px, 1.3vw, 19px);
+  min-width: 0;
+}
+.teacher-body .question-panel h2,
+.teacher-body .question-example h2 {
+  font-size: clamp(1.06rem, 1.42vw, 1.45rem);
+  line-height: 1.25;
+  margin: 0 0 10px;
+}
+.teacher-body .question-code-box {
+  background: #171d28;
+  color: #ecf1f9;
+  border-radius: 9px;
+  overflow: hidden;
+}
+.teacher-body .question-code-section + .question-code-section {
+  border-top: 1px solid #ffffff30;
+}
+.teacher-body .question-code-label {
+  padding: 8px 13px 2px;
+  color: #b8cae5;
+  font-size: clamp(.78rem, .9vw, .95rem);
+  font-weight: 600;
+}
+.teacher-body .question-code-section pre {
+  padding: 6px 13px 12px;
+  margin: 0;
+  font-size: clamp(.9rem, 1.18vw, 1.27rem);
+  line-height: 1.42;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 4;
+}
+.teacher-body .question-code-section code { font-size: inherit; }
+.teacher-body .requirements-panel ul {
+  padding-left: 1.22em;
+  margin: 4px 0 0;
+}
+.teacher-body .requirements-panel li {
+  margin: 0 0 .6em;
+  padding-left: .08em;
+}
+.teacher-body .requirements-panel li:last-child { margin-bottom: 0; }
+.teacher-body .question-example {
+  border: 1px solid var(--border, #dce3ea);
+  border-radius: 11px;
+  padding: clamp(12px, 1.2vw, 18px);
+}
+.teacher-body .question-example h2 { margin-bottom: 6px; }
+.teacher-body .question-example-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px 20px;
+}
+.teacher-body .question-example-value {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  min-width: 0;
+}
+.teacher-body .question-example-value strong { white-space: nowrap; }
+.teacher-body .question-example-value code {
+  font-size: clamp(.9rem, 1.16vw, 1.25rem);
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+/* Override the old fullscreen rule's enlarged font so it doesn't overflow. */
+#presentation:fullscreen {
+  height: 100vh;
+  padding: clamp(14px, 2vw, 32px);
+  overflow-y: auto;
+}
+#presentation:fullscreen .question-sheet {
+  max-width: 1580px;
+  margin: 0 auto;
+  font-size: clamp(1.1rem, 1.4vw, 1.5rem);
+}
+#presentation:fullscreen .presentation-toolbar {
+  max-width: 1580px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 900px) {
+  .teacher-body .question-layout,
+  .teacher-body .question-example-grid { grid-template-columns: 1fr; }
+  .teacher-body .teacher-shell { width: min(100% - 28px, 1560px); }
+}
