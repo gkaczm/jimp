@@ -22,3 +22,38 @@ code{font-size:.92em} p{margin:0 0 1rem} h1,h2,h3{line-height:1.22;letter-spacin
 .md-quote p:last-child{margin-bottom:0}
 .markdown-image{display:block;max-width:100%;height:auto;border-radius:10px;margin:16px 0}
 .load-error{color:#a32235;font-weight:600;background:#fff3f4;padding:18px;border-radius:10px}
+
+
+/* Tabele w instrukcjach */
+.lesson-main .table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0 1.4rem;
+}
+
+.lesson-main .md-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.lesson-main .md-table th,
+.lesson-main .md-table td {
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+  text-align: left;
+  vertical-align: top;
+}
+
+.lesson-main .md-table th {
+  background: rgba(128, 128, 128, 0.10);
+  font-weight: 650;
+}
+
+.lesson-main .md-table .align-center {
+  text-align: center;
+}
+
+.lesson-main .md-table .align-right {
+  text-align: right;
+}
