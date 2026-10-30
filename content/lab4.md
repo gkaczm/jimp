@@ -6,7 +6,7 @@ Budujemy program, który wczytuje dwa wektory liczb typu `double`, oblicza ich n
 
 Obliczenia umieszczamy we własnej **bibliotece wektorowej**, czyli zestawie funkcji, z których korzysta program główny. Dzięki temu możemy rozbudowywać obliczenia bez umieszczania całego kodu w `main()`.
 
-Punktem wyjścia jest [projekt do pobrania](../downloads/lab4/lmp4_start.zip), zawierający cztery pliki:
+Punktem wyjścia jest [projekt do pobrania](downloads/lab4/lmp4_start.zip), zawierający cztery pliki:
 
 ```text
 bibl.h     — deklaracje funkcji biblioteki
