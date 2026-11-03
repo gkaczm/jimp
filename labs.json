@@ -8,5 +8,10 @@
     "id": "4",
     "title": "Programy wieloplikowe i operacje na wektorach",
     "url": "labs/lab.html?id=4"
+  },
+  {
+    "id": "5",
+    "title": "Uruchamianie i debugowanie programów",
+    "url": "labs/lab.html?id=5"
   }
 ]
