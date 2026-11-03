@@ -1,5 +1,15 @@
 [
   {
+    "id": "1",
+    "title": "Środowisko Unix/Linux i pierwszy program w C",
+    "url": "labs/lab.html?id=1"
+  },
+  {
+    "id": "2",
+    "title": "Podstawy programowania w języku C",
+    "url": "labs/lab.html?id=2"
+  }
+  {
     "id": "3",
     "title": "Wskaźniki do funkcji i pomiary temperatury",
     "url": "labs/lab.html?id=3"
