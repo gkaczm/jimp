@@ -15,9 +15,13 @@ mkdir -p ~/lmp/lmp7
 cd ~/lmp/lmp7
 ```
 
-**Wszystkie cztery kompletne programy są poniżej.** Każdy listing zapisz w osobnym pliku o wskazanej nazwie (`asort.c`, `zsort.c`, `psort.c`, `pstr.c`). Nie trzeba pobierać dodatkowego archiwum ani plików startowych.
+**Pliki startowe do pobrania:** [wszystkie programy i dane (ZIP)](downloads/lab7/lmp7_start.zip). Rozpakuj archiwum w katalogu roboczym, np. poleceniem `unzip lmp7_start.zip`.
 
-W ćwiczeniach z plikami przygotuj plik `dane.1` o takiej zawartości (pięć wierszy, w tym kropka na końcu):
+Programy osobno: [`asort.c`](downloads/lab7/asort.c), [`zsort.c`](downloads/lab7/zsort.c), [`psort.c`](downloads/lab7/psort.c), [`pstr.c`](downloads/lab7/pstr.c). Dane do ćwiczeń: [`dane.1`](downloads/lab7/dane.1), [`dane.2`](downloads/lab7/dane.2), [`dane.3`](downloads/lab7/dane.3).
+
+**Wszystkie cztery kompletne listingi znajdują się również poniżej**, razem z objaśnieniami. Jeśli nie korzystasz z archiwum, zapisz je ręcznie w osobnych plikach `.c`.
+
+Plik `dane.1` ma następującą zawartość (pięć wierszy, w tym kropka na końcu):
 
 ```text
 Ala
@@ -27,7 +31,7 @@ psa
 .
 ```
 
-Do dodatkowych eksperymentów utwórz też samodzielnie pliki `dane.2` i `dane.3`, zawierające więcej linii lub inne kombinacje małych i wielkich liter. Możesz również użyć dowolnego własnego pliku tekstowego.
+Do dodatkowych eksperymentów wykorzystaj dołączone `dane.2` i `dane.3` lub przygotuj własne pliki tekstowe z innymi kombinacjami małych i wielkich liter.
 
 ## 2. Program 1 — sortowanie argumentów (`asort.c`)
 

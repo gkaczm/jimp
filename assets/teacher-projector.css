@@ -22,7 +22,8 @@
 }
 .teacher-body .question-sheet .task-text {
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.5;
+  white-space: pre-line; /* zachowaj Entery z question.text */
 }
 .teacher-body .question-layout {
   display: grid;
@@ -122,4 +123,9 @@
   .teacher-body .question-layout,
   .teacher-body .question-example-grid { grid-template-columns: 1fr; }
   .teacher-body .teacher-shell { width: min(100% - 28px, 1560px); }
+}
+
+/* Puste wymagania (requirements: []) nie powinny zajmowac miejsca. */
+.teacher-body .requirements-panel:has(ul:empty) {
+  display: none;
 }
