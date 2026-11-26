@@ -4,7 +4,7 @@
 
 Podczas zajęć będziemy sortować napisy i znaki, odczytywać wiersze z plików tekstowych oraz wyszukiwać fragmenty tekstu. Poznamy funkcje biblioteczne `qsort()`, `strcmp()`, `strlen()` i `strstr()`, a także wykorzystamy `fgets()`, `malloc()` i `strcpy()` w pracy z plikami.
 
-Pracujemy na czterech kompletnych programach. Uruchamiamy je, porównujemy wyniki z kodem źródłowym i wykonujemy ćwiczenia podane przy każdym przykładzie. Na tej stronie to **LMP/7** (wcześniejsze ćwiczenia dodatkowe zajęły numer 6). Materiał pochodzi z archiwalnego **LMP/6** (*Przetwarzanie napisów*, WikiDyd PW); programy zachowują mechanizmy oryginału. W pierwszym przykładzie pozostawiono **błąd wskaźnikowy z oryginalnego materiału** jako zadanie do wykrycia i poprawy.
+Pracujemy na czterech kompletnych programach. Uruchamiamy je, porównujemy wyniki z kodem źródłowym i wykonujemy ćwiczenia podane przy każdym przykładzie.
 
 ### Przygotowanie do zajęć
 
@@ -33,9 +33,6 @@ Do dodatkowych eksperymentów utwórz też samodzielnie pliki `dane.2` i `dane.3
 
 Program otrzymuje słowa jako argumenty wiersza poleceń, sortuje tablicę `argv` za pomocą `qsort()` i wypisuje słowa w kolejności alfabetycznej. Funkcja `qsort()` potrzebuje **funkcji porównującej** — otrzymuje ją jako ostatni argument.
 
-**Uwaga: poniższy kod zawiera błąd związany ze wskaźnikami — na tych zajęciach traktujemy go jako zamierzoną pułapkę.** Nie poprawiamy go przed pierwszą próbą kompilacji.
-
-
 ```c
 #include <stdio.h> // wiadomo po co
 #include <stdlib.h> // qsort
@@ -45,7 +42,7 @@ int
 alphacmp( const void *a, const void *b ) {
     char **ca = (char**)a;
     char **cb = (char**)b;
-    return strcmp( ca, cb );
+    return strcmp( *ca, *cb );
 }
 
 int
@@ -61,34 +58,32 @@ main( int argc, char **argv ) {
 }
 ```
 
-### Ćwiczenie 1. Dlaczego program nie działa poprawnie?
+### Ćwiczenie 1. Sortowanie napisów
 
-Skompiluj program z włączonymi ostrzeżeniami i spróbuj go uruchomić:
-
-```bash
-gcc -Wall asort.c -o asort
-```
-
-1. Co zgłasza kompilator: ostrzeżenie czy błąd? **Na nowszych wersjach GCC program może w ogóle nie zostać skompilowany.** Nie ignorujemy komunikatu o typach wskaźników.
-2. Jakie typy mają `argv`, `argv[i]`, `a`, `ca` i `*ca`? Co dokładnie wskazuje `ca`?
-3. **Dlaczego porównywanie w `alphacmp()` jest niepoprawne?** Popraw tę jedną instrukcję, ponownie skompiluj program i dopiero wtedy uruchom go:
+Skompiluj i uruchom program:
 
 ```bash
 gcc -Wall asort.c -o asort
 ./asort ala ma kota a Ola ma psa
 ```
 
-`qsort(tablica, ile, rozmiar_elementu, komparator)` sortuje `ile` elementów tablicy. Komparator dostaje **adresy dwóch elementów**; zwraca wartość ujemną, zero lub dodatnią w zależności od ich kolejności. W tym przypadku elementami `argv` są *wskaźniki na napisy*, dlatego istotny jest poziom pośrednictwa.
+Przyjrzyj się komparatorowi `alphacmp()`. Funkcja `qsort()` przekazuje mu **adresy dwóch elementów tablicy**. Każdy element `argv` jest wskaźnikiem na napis (`char *`), dlatego komparator odbiera wskaźnik na taki element (`char **`) i przekazuje do `strcmp()` napisy przez `*ca` i `*cb`.
 
-Po naprawie sprawdź, że program sortuje następujące dane:
+**Pytania:**
+
+1. Jakie typy mają `argv`, `argv[i]`, `ca` i `*ca`?
+2. Co oznacza dereferencja `*ca` w wywołaniu `strcmp(*ca, *cb)`?
+3. Dlaczego program wypisuje słowa `Ola` przed `ala`?
+
+Sprawdź również:
 
 ```bash
 ./asort Ala ma kota a Ola ma psa
 ```
 
-Oczekiwana kolejność w tym przykładzie: `Ala`, `Ola`, `a`, `kota`, `ma`, `ma`, `psa`. W porządku opartym na kodach bajtów wielkie litery łacińskie poprzedzają małe; `strcmp()` nie realizuje słownikowego sortowania według reguł języka polskiego.
+Oczekiwana kolejność: `Ala`, `Ola`, `a`, `kota`, `ma`, `ma`, `psa`. `strcmp()` porównuje napisy według kodów bajtów, a nie według zasad słownikowego sortowania po polsku.
 
-**Ćwiczenie dodatkowe:** zmień znak wyniku porównania tak, aby uzyskać kolejność malejącą (nierosnącą). Sprawdź działanie, a nie tylko samą kompilację.
+**Ćwiczenie dodatkowe:** zmień znak wyniku porównania tak, aby uzyskać kolejność malejącą. Sprawdź działanie programu na obu zestawach argumentów.
 
 ## 3. Program 2 — sortowanie znaków w słowie (`zsort.c`)
 
