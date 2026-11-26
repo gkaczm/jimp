@@ -318,4 +318,3 @@ Wpisz kilka wierszy i zakończ wejście przez `Ctrl+D` (Linux).
 
 Treść zadania zaliczeniowego zostanie udostępniona przez prowadzącą podczas laboratorium. Zadanie polega na **modyfikacji lub rozszerzeniu jednego z programów z bieżących zajęć**.
 
-<!-- LMP7_PUBLIC: zadania zaliczeniowe zostana dodane podczas zajec. -->
