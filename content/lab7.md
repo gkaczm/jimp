@@ -344,29 +344,3 @@ Przykładowe uruchomienia:
 5. Program powinien obsługiwać błędny tryb działania, brak wymaganych argumentów oraz niepowodzenie otwarcia pliku.
 
 **Sprawdzenie:** dla `-and dane.1 ma Ola` wynikiem powinna być tylko linia `a Ola ma`. Dla `-or dane.1 ma Ala` powinny zostać wypisane trzy linie: `Ala`, `ma kota`, `a Ola ma`.
-
-### Grupa 2 (10:00) — zadanie zaliczeniowe: wybieranie i sortowanie linii
-
-Na podstawie `psort.c` i `pstr.c` napisz samodzielnie `filtrsort.c`, który:
-
-1. Przyjmuje argumenty: **wzorzec** i **nazwa pliku**.
-2. Czyta plik wiersz po wierszu.
-3. Zapisuje w pamięci **wyłącznie wiersze zawierające wzorzec**, używając `strstr()`.
-4. Sortuje zapisane wiersze alfabetycznie przez `qsort()`.
-5. Wypisuje je w posortowanej kolejności, po jednym wierszu. W przypadku braku dopasowań nie wypisuje niczego.
-
-Przykład:
-
-```bash
-gcc -Wall filtrsort.c -o filtrsort
-./filtrsort ma dane.1
-```
-
-Oczekiwany wynik:
-
-```text
-a Ola ma
-ma kota
-```
-
-Zachowaj rozróżnienie wielkości liter jak w `strcmp()` i `strstr()`. Nie musisz budować całego programu od zera: możesz skopiować `psort.c` i rozszerzyć go o filtrowanie z `pstr.c`.
