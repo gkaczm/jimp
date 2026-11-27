@@ -318,92 +318,55 @@ Wpisz kilka wierszy i zakończ wejście przez `Ctrl+D` (Linux).
 
 Treść zadania zaliczeniowego zostanie udostępniona przez prowadzącą podczas laboratorium. Zadanie polega na **modyfikacji lub rozszerzeniu jednego z programów z bieżących zajęć**.
 
-
-
 ### Grupa 1 (8:00) — zadanie zaliczeniowe: wyszukiwanie OR i AND
 
-Program otrzymuje tryb (`-or` albo `-and`), nazwę pliku oraz dowolną liczbę wzorców (co najmniej jeden):
+Zmodyfikuj program `pstr.c` z bieżącego laboratorium tak, aby obsługiwał **wiele wzorców wyszukiwania** oraz dwa tryby działania:
+
+- **`-or`** — wypisz linię, jeśli zawiera co najmniej jeden z podanych wzorców.
+- **`-and`** — wypisz linię, jeśli zawiera wszystkie podane wzorce.
+
+Program powinien przyjmować argumenty w kolejności:
+
+`./program -or|-and plik wzorzec1 [wzorzec2 ...]`
+
+Przykładowe uruchomienia:
+
+`./program -or dane.1 ma Ala`
+
+`./program -and dane.1 ma Ola`
+
+**Wymagania:**
+
+1. Wykorzystaj istniejący kod `pstr.c` jako punkt wyjścia.
+2. Zmodyfikuj obsługę argumentów `argc` i `argv`, aby program rozpoznawał tryb działania, nazwę pliku i dowolną liczbę wzorców (co najmniej jeden).
+3. Wykorzystaj `strstr()` do sprawdzania, czy dany wzorzec występuje w linii.
+4. Każda pasująca linia może być wypisana najwyżej raz.
+5. Program powinien obsługiwać błędny tryb działania, brak wymaganych argumentów oraz niepowodzenie otwarcia pliku.
+
+**Sprawdzenie:** dla `-and dane.1 ma Ola` wynikiem powinna być tylko linia `a Ola ma`. Dla `-or dane.1 ma Ala` powinny zostać wypisane trzy linie: `Ala`, `ma kota`, `a Ola ma`.
+
+### Grupa 2 (10:00) — zadanie zaliczeniowe: wybieranie i sortowanie linii
+
+Na podstawie `psort.c` i `pstr.c` napisz samodzielnie `filtrsort.c`, który:
+
+1. Przyjmuje argumenty: **wzorzec** i **nazwa pliku**.
+2. Czyta plik wiersz po wierszu.
+3. Zapisuje w pamięci **wyłącznie wiersze zawierające wzorzec**, używając `strstr()`.
+4. Sortuje zapisane wiersze alfabetycznie przez `qsort()`.
+5. Wypisuje je w posortowanej kolejności, po jednym wierszu. W przypadku braku dopasowań nie wypisuje niczego.
+
+Przykład:
 
 ```bash
-gcc -Wall zaliczenie_gr1.c -o zaliczenie_gr1
-./zaliczenie_gr1 -or dane.1 ma Ala
-./zaliczenie_gr1 -and dane.1 ma Ola
+gcc -Wall filtrsort.c -o filtrsort
+./filtrsort ma dane.1
 ```
 
-**Zadanie:** zapisz poniższy szkielet w pliku `zaliczenie_gr1.c` i uzupełnij **tylko dwie funkcje** `pasuje_or()` oraz `pasuje_and()` (miejsca `TODO`). Korzystaj z pętli i `strstr()`.
+Oczekiwany wynik:
 
-- `-or`: wypisz linię, jeżeli zawiera przynajmniej jeden wzorzec.
-- `-and`: wypisz linię, jeżeli zawiera wszystkie wzorce.
-- Funkcje zwracają `1` dla dopasowania i `0` w przeciwnym razie. Każda linia może zostać wypisana najwyżej raz.
-
-**Gotowy szkielet programu (nie trzeba pobierać dodatkowego pliku):**
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#define BUFSIZE 8192
-
-/* Zwraca 1, jesli linia zawiera co najmniej jeden wzorzec, inaczej 0. */
-int pasuje_or(const char *linia, int n, char *wzorce[])
-{
-    /* TODO: uzupelnij funkcje. */
-    return 0;
-}
-
-/* Zwraca 1, jesli linia zawiera wszystkie wzorce, inaczej 0. */
-int pasuje_and(const char *linia, int n, char *wzorce[])
-{
-    /* TODO: uzupelnij funkcje. */
-    return 0;
-}
-
-int main(int argc, char *argv[])
-{
-    FILE *plik;
-    char linia[BUFSIZE];
-    int tryb_or;
-    int n;
-    char **wzorce;
-
-    if (argc < 4) {
-        fprintf(stderr, "Uzycie: %s -or|-and plik wzorzec [wzorzec ...]\n", argv[0]);
-        return 1;
-    }
-
-    if (strcmp(argv[1], "-or") == 0)
-        tryb_or = 1;
-    else if (strcmp(argv[1], "-and") == 0)
-        tryb_or = 0;
-    else {
-        fprintf(stderr, "Nieznany tryb: %s\n", argv[1]);
-        return 1;
-    }
-
-    plik = fopen(argv[2], "r");
-    if (plik == NULL) {
-        fprintf(stderr, "Nie mozna otworzyc pliku %s\n", argv[2]);
-        return 1;
-    }
-
-    n = argc - 3;
-    wzorce = argv + 3;
-
-    while (fgets(linia, sizeof linia, plik) != NULL) {
-        int pasuje;
-        if (tryb_or)
-            pasuje = pasuje_or(linia, n, wzorce);
-        else
-            pasuje = pasuje_and(linia, n, wzorce);
-
-        if (pasuje)
-            printf("%s", linia);
-    }
-
-    fclose(plik);
-    return 0;
-}
+```text
+a Ola ma
+ma kota
 ```
 
-**Sprawdzenie:** dla `-and dane.1 ma Ola` wynikiem ma być tylko `a Ola ma`; dla `-or dane.1 ma Ala` powinny zostać wypisane trzy linie: `Ala`, `ma kota`, `a Ola ma`.
+Zachowaj rozróżnienie wielkości liter jak w `strcmp()` i `strstr()`. Nie musisz budować całego programu od zera: możesz skopiować `psort.c` i rozszerzyć go o filtrowanie z `pstr.c`.
