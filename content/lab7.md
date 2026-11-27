@@ -316,10 +316,6 @@ Wpisz kilka wierszy i zakończ wejście przez `Ctrl+D` (Linux).
 
 ## 7. Zadanie na zaliczenie
 
-Treść zadania zaliczeniowego zostanie udostępniona przez prowadzącą podczas laboratorium. Zadanie polega na **modyfikacji lub rozszerzeniu jednego z programów z bieżących zajęć**.
-
-### Grupa 1 (8:00) — zadanie zaliczeniowe: wyszukiwanie OR i AND
-
 Zmodyfikuj program `pstr.c` z bieżącego laboratorium tak, aby obsługiwał **wiele wzorców wyszukiwania** oraz dwa tryby działania:
 
 - **`-or`** — wypisz linię, jeśli zawiera co najmniej jeden z podanych wzorców.
@@ -346,28 +342,3 @@ Przykładowe uruchomienia:
 **Sprawdzenie:** dla `-and dane.1 ma Ola` wynikiem powinna być tylko linia `a Ola ma`. Dla `-or dane.1 ma Ala` powinny zostać wypisane trzy linie: `Ala`, `ma kota`, `a Ola ma`.
 
 
-### Grupa 2 (10:00) — zadanie zaliczeniowe: wybieranie i sortowanie linii
-
-Na podstawie `psort.c` i `pstr.c` napisz samodzielnie `filtrsort.c`, który:
-
-1. Przyjmuje argumenty: **wzorzec** i **nazwa pliku**.
-2. Czyta plik wiersz po wierszu.
-3. Zapisuje w pamięci **wyłącznie wiersze zawierające wzorzec**, używając `strstr()`.
-4. Sortuje zapisane wiersze alfabetycznie przez `qsort()`.
-5. Wypisuje je w posortowanej kolejności, po jednym wierszu. W przypadku braku dopasowań nie wypisuje niczego.
-
-Przykład:
-
-```bash
-gcc -Wall filtrsort.c -o filtrsort
-./filtrsort ma dane.1
-```
-
-Oczekiwany wynik:
-
-```text
-a Ola ma
-ma kota
-```
-
-Zachowaj rozróżnienie wielkości liter jak w `strcmp()` i `strstr()`. Nie musisz budować całego programu od zera: możesz skopiować `psort.c` i rozszerzyć go o filtrowanie z `pstr.c`.
