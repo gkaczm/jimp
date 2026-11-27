@@ -318,3 +318,92 @@ Wpisz kilka wierszy i zakończ wejście przez `Ctrl+D` (Linux).
 
 Treść zadania zaliczeniowego zostanie udostępniona przez prowadzącą podczas laboratorium. Zadanie polega na **modyfikacji lub rozszerzeniu jednego z programów z bieżących zajęć**.
 
+
+
+### Grupa 1 (8:00) — zadanie zaliczeniowe: wyszukiwanie OR i AND
+
+Program otrzymuje tryb (`-or` albo `-and`), nazwę pliku oraz dowolną liczbę wzorców (co najmniej jeden):
+
+```bash
+gcc -Wall zaliczenie_gr1.c -o zaliczenie_gr1
+./zaliczenie_gr1 -or dane.1 ma Ala
+./zaliczenie_gr1 -and dane.1 ma Ola
+```
+
+**Zadanie:** zapisz poniższy szkielet w pliku `zaliczenie_gr1.c` i uzupełnij **tylko dwie funkcje** `pasuje_or()` oraz `pasuje_and()` (miejsca `TODO`). Korzystaj z pętli i `strstr()`.
+
+- `-or`: wypisz linię, jeżeli zawiera przynajmniej jeden wzorzec.
+- `-and`: wypisz linię, jeżeli zawiera wszystkie wzorce.
+- Funkcje zwracają `1` dla dopasowania i `0` w przeciwnym razie. Każda linia może zostać wypisana najwyżej raz.
+
+**Gotowy szkielet programu (nie trzeba pobierać dodatkowego pliku):**
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define BUFSIZE 8192
+
+/* Zwraca 1, jesli linia zawiera co najmniej jeden wzorzec, inaczej 0. */
+int pasuje_or(const char *linia, int n, char *wzorce[])
+{
+    /* TODO: uzupelnij funkcje. */
+    return 0;
+}
+
+/* Zwraca 1, jesli linia zawiera wszystkie wzorce, inaczej 0. */
+int pasuje_and(const char *linia, int n, char *wzorce[])
+{
+    /* TODO: uzupelnij funkcje. */
+    return 0;
+}
+
+int main(int argc, char *argv[])
+{
+    FILE *plik;
+    char linia[BUFSIZE];
+    int tryb_or;
+    int n;
+    char **wzorce;
+
+    if (argc < 4) {
+        fprintf(stderr, "Uzycie: %s -or|-and plik wzorzec [wzorzec ...]\n", argv[0]);
+        return 1;
+    }
+
+    if (strcmp(argv[1], "-or") == 0)
+        tryb_or = 1;
+    else if (strcmp(argv[1], "-and") == 0)
+        tryb_or = 0;
+    else {
+        fprintf(stderr, "Nieznany tryb: %s\n", argv[1]);
+        return 1;
+    }
+
+    plik = fopen(argv[2], "r");
+    if (plik == NULL) {
+        fprintf(stderr, "Nie mozna otworzyc pliku %s\n", argv[2]);
+        return 1;
+    }
+
+    n = argc - 3;
+    wzorce = argv + 3;
+
+    while (fgets(linia, sizeof linia, plik) != NULL) {
+        int pasuje;
+        if (tryb_or)
+            pasuje = pasuje_or(linia, n, wzorce);
+        else
+            pasuje = pasuje_and(linia, n, wzorce);
+
+        if (pasuje)
+            printf("%s", linia);
+    }
+
+    fclose(plik);
+    return 0;
+}
+```
+
+**Sprawdzenie:** dla `-and dane.1 ma Ola` wynikiem ma być tylko `a Ola ma`; dla `-or dane.1 ma Ala` powinny zostać wypisane trzy linie: `Ala`, `ma kota`, `a Ola ma`.
